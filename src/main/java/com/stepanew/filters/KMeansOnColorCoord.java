@@ -1,8 +1,6 @@
 package com.stepanew.filters;
 
 import com.stepanew.entities.ColorWithCoord;
-import com.stepanew.entities.Coord;
-import com.stepanew.entities.MyColor;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -26,8 +24,8 @@ public class KMeansOnColorCoord {
         for(int x = 0; x < width; x++){
             for(int y = 0; y < height; y++){
                 Color pixel = new Color(image.getRGB(x, y));
-                ColorWithCoord myColor = new ColorWithCoord(new MyColor(pixel.getRed(), pixel.getGreen(), pixel.getBlue()),
-                        new Coord(x, y));
+                ColorWithCoord myColor = new ColorWithCoord(pixel.getRed(), pixel.getGreen(), pixel.getBlue(),
+                        x, y);
                 pixels[x][y] = myColor;
             }
         }
@@ -78,8 +76,8 @@ public class KMeansOnColorCoord {
                 pixels[i][j] = new ColorWithCoord(setColor.getRed(),
                         setColor.getGreen(),
                         setColor.getBlue(),
-                        centroids[label].coord.xCoord,
-                        centroids[label].coord.yCoord);
+                        centroids[label].getX(),
+                        centroids[label].getY());
             }
         }
     }
@@ -95,22 +93,22 @@ public class KMeansOnColorCoord {
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
                 int label = labels[i][j];
-                sumsR[label] += pixels[i][j].color.Red;
-                sumsG[label] += pixels[i][j].color.Green;
-                sumsB[label] += pixels[i][j].color.Blue;
-                sumsX[label] += pixels[i][j].coord.xCoord;
-                sumsY[label] += pixels[i][j].coord.yCoord;
+                sumsR[label] += pixels[i][j].getRed();
+                sumsG[label] += pixels[i][j].getGreen();
+                sumsB[label] += pixels[i][j].getBlue();
+                sumsX[label] += pixels[i][j].getX();
+                sumsY[label] += pixels[i][j].getY();
                 counts[label]++;
             }
         }
 
         for (int i = 0; i < centroids.length; i++) {
             if (counts[i] != 0) {
-                centroids[i].color.Red = sumsR[i] / counts[i];
-                centroids[i].color.Green = sumsG[i] / counts[i];
-                centroids[i].color.Blue = sumsB[i] / counts[i];
-                centroids[i].coord.xCoord = sumsX[i] / counts[i];
-                centroids[i].coord.yCoord = sumsY[i] / counts[i];
+                centroids[i].setRed(sumsR[i] / counts[i]);
+                centroids[i].setGreen(sumsG[i] / counts[i]);
+                centroids[i].setBlue(sumsB[i] / counts[i]);
+                centroids[i].setX(sumsX[i] / counts[i]);
+                centroids[i].setY(sumsY[i] / counts[i]);
             }
         }
     }
@@ -142,7 +140,7 @@ public class KMeansOnColorCoord {
         for(int i = 0; i < width; i++){
             for(int j = 0; j < height; j++){
                 ColorWithCoord myColor = pixels[i][j];
-                Color color = new Color(myColor.color.Red, myColor.color.Green, myColor.color.Blue);
+                Color color = new Color(myColor.getRed(), myColor.getGreen(), myColor.getBlue());
                 bufferedImage.setRGB(i, j, color.getRGB());
             }
         }
@@ -151,17 +149,17 @@ public class KMeansOnColorCoord {
     }
 
     private int calculateColorAndCoordDistance(ColorWithCoord pixel, ColorWithCoord centroid) {
-        int red1 = pixel.color.Red;
-        int green1 = pixel.color.Green;
-        int blue1 = pixel.color.Green;
-        int x1 = pixel.coord.xCoord;
-        int y1 = pixel.coord.yCoord;
+        int red1 = pixel.getRed();
+        int green1 = pixel.getGreen();
+        int blue1 = pixel.getBlue();
+        int x1 = pixel.getX();
+        int y1 = pixel.getY();
 
-        int red2 = centroid.color.Red;
-        int green2 = centroid.color.Green;
-        int blue2 = centroid.color.Blue;
-        int x2 = centroid.coord.xCoord;
-        int y2 = centroid.coord.yCoord;
+        int red2 = centroid.getRed();
+        int green2 = centroid.getGreen();
+        int blue2 = centroid.getBlue();
+        int x2 = centroid.getX();
+        int y2 = centroid.getY();
 
         int deltaRed = red1 - red2;
         int deltaGreen = green1 - green2;

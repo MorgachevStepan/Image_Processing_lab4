@@ -1,11 +1,27 @@
 package com.stepanew.entities;
 
 public class Coord {
-    public int xCoord;
-    public int yCoord;
+    private int xCoord;
+    private int yCoord;
 
     public Coord(int xCoord, int yCoord) {
         this.xCoord = xCoord;
+        this.yCoord = yCoord;
+    }
+
+    public int getxCoord() {
+        return xCoord;
+    }
+
+    public int getyCoord() {
+        return yCoord;
+    }
+
+    public void setxCoord(int xCoord) {
+        this.xCoord = xCoord;
+    }
+
+    public void setyCoord(int yCoord) {
         this.yCoord = yCoord;
     }
 

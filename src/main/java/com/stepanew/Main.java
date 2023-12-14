@@ -7,7 +7,7 @@ import java.awt.image.BufferedImage;
 import java.util.List;
 
 public class Main {
-    public static final int CLUSTERS = 4;
+    public static final int CLUSTERS = 3;
     public static final int ITERATIONS = 100;
     public static final String PNG = "png";
     public static final String FIRST_SAMPLE = "src/main/resources/img";
@@ -19,7 +19,7 @@ public class Main {
         FileReader fileReader = new FileReader();
         Histogram histogram = new Histogram(fileReader);
 
-        BufferedImage image = fileReader.ReadImage(FOURTH_SAMPLE + "." + PNG);
+        BufferedImage image = fileReader.ReadImage(THIRD_SAMPLE + "." + PNG);
         image = GrayScale.grayScale(image);
         histogram.buildHistogram(image);
         histogram.plotHistogram();
@@ -43,6 +43,6 @@ public class Main {
         image = myColorWithCoord.restoreImage();
 
 
-        fileReader.SaveImage(image, PNG, FOURTH_SAMPLE + CLUSTERS + ".png");
+        fileReader.SaveImage(image, PNG, THIRD_SAMPLE + CLUSTERS + ".png");
     }
 }

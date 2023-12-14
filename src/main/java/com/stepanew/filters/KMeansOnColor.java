@@ -80,9 +80,9 @@ public class KMeansOnColor {
 
         for (int i = 0; i < width; i++) {
             for(int j = 0; j < height; j++) {
-                sumsR[labels[i][j]] += pixels[i][j].Red;
-                sumsG[labels[i][j]] += pixels[i][j].Green;
-                sumsB[labels[i][j]] += pixels[i][j].Blue;
+                sumsR[labels[i][j]] += pixels[i][j].getRed();
+                sumsG[labels[i][j]] += pixels[i][j].getGreen();
+                sumsB[labels[i][j]] += pixels[i][j].getBlue();
                 counts[labels[i][j]]++;
             }
         }
@@ -125,7 +125,7 @@ public class KMeansOnColor {
         for(int i = 0; i < width; i++){
             for(int j = 0; j < height; j++){
                 MyColor myColor = pixels[i][j];
-                Color color = new Color(myColor.Red, myColor.Green, myColor.Blue);
+                Color color = new Color(myColor.getRed(), myColor.getGreen(), myColor.getBlue());
                 bufferedImage.setRGB(i, j, color.getRGB());
             }
         }
@@ -134,13 +134,13 @@ public class KMeansOnColor {
     }
 
     private int calculateColorDistance(MyColor pixel, MyColor centroid) {
-        int red1 = pixel.Red;
-        int green1 = pixel.Green;
-        int blue1 = pixel.Blue;
+        int red1 = pixel.getRed();
+        int green1 = pixel.getGreen();
+        int blue1 = pixel.getBlue();
 
-        int red2 = centroid.Red;
-        int green2 = centroid.Green;
-        int blue2 = centroid.Blue;
+        int red2 = centroid.getRed();
+        int green2 = centroid.getGreen();
+        int blue2 = centroid.getBlue();
 
         int deltaRed = red1 - red2;
         int deltaGreen = green1 - green2;
