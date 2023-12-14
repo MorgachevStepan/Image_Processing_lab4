@@ -1,12 +1,12 @@
 package com.stepanew.filters;
 
 import com.stepanew.entities.MyColor;
+import com.stepanew.utils.ColorGenerator;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Random;
 import java.util.Set;
 
 public class KMeansOnColor {
@@ -16,8 +16,9 @@ public class KMeansOnColor {
     private final int width;
     private final int height;
     private final List<Integer> peaks;
+    private final ColorGenerator colorGenerator;
 
-    public KMeansOnColor(BufferedImage image, int clusters, int maxIterations, List<Integer> peaks) {
+    public KMeansOnColor(BufferedImage image, int clusters, int maxIterations, List<Integer> peaks, ColorGenerator colorGenerator) {
         this.width = image.getWidth();
         this.height = image.getHeight();
         pixels = new MyColor[width][height];
@@ -33,6 +34,7 @@ public class KMeansOnColor {
         this.clusters = clusters;
         this.maxIterations = maxIterations;
         this.peaks = peaks;
+        this.colorGenerator = colorGenerator;
     }
 
     public void kMeansColorSegmentation() {
@@ -56,7 +58,7 @@ public class KMeansOnColor {
     }
 
     private void visualizeClusters(int[][] labels, MyColor[] centroids) {
-        Color[] results = generateUniqueColors(clusters);
+        Color[] results = colorGenerator.generateUniqueColors(clusters);
         Set<Integer> set = new HashSet<>();
 
         for (int i = 0; i < width; i++) {
@@ -147,21 +149,5 @@ public class KMeansOnColor {
         int deltaBlue = blue1 - blue2;
 
         return (int)Math.sqrt(deltaRed * deltaRed + deltaGreen * deltaGreen + deltaBlue * deltaBlue);
-    }
-
-    private Color[] generateUniqueColors(int arraySize) {
-        Set<Color> colorSet = new HashSet<>();
-        Random random = new Random();
-
-        while (colorSet.size() < arraySize) {
-            int red = random.nextInt(256);
-            int green = random.nextInt(256);
-            int blue = random.nextInt(256);
-
-            Color color = new Color(red, green, blue);
-            colorSet.add(color);
-        }
-
-        return colorSet.toArray(new Color[0]);
     }
 }

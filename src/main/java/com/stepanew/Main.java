@@ -1,10 +1,10 @@
 package com.stepanew;
 
 import com.stepanew.filters.*;
+import com.stepanew.utils.ColorGenerator;
 import com.stepanew.utils.FileReader;
 
 import java.awt.image.BufferedImage;
-import java.util.List;
 
 public class Main {
     public static final int CLUSTERS = 3;
@@ -17,6 +17,7 @@ public class Main {
     public static final String FOURTH_SAMPLE = "src/main/resources/img_3";
     public static void main(String[] args) {
         FileReader fileReader = new FileReader();
+        ColorGenerator colorGenerator = new ColorGenerator();
         Histogram histogram = new Histogram(fileReader);
 
         BufferedImage image = fileReader.ReadImage(THIRD_SAMPLE + "." + PNG);
@@ -30,19 +31,19 @@ public class Main {
             System.out.println("Peaks in my method: " + i);
         }
 
-        KMeansOnColor kMeanClustering = new KMeansOnColor(image, peaks.size(), ITERATIONS, peaks); //For first and second
+        KMeansOnColor kMeanClustering = new KMeansOnColor(image, peaks.size(), ITERATIONS, peaks, colorGenerator); //For first and second
 
         kMeanClustering.kMeansColorSegmentation();
         image = kMeanClustering.restoreImage();
 
         fileReader.SaveImage(image, PNG, SECOND_SAMPLE + peaks.size() + "." + PNG);*/
 
-        KMeansOnColorCoord myColorWithCoord = new KMeansOnColorCoord(image, CLUSTERS, ITERATIONS);
+        /*KMeansOnColorCoord myColorWithCoord = new KMeansOnColorCoord(image, CLUSTERS, ITERATIONS, colorGenerator);
 
-        myColorWithCoord.kMeansColorAndCoordSegmentation();
+        myColorWithCoord.kMeansColorAndCoordSegmentation();                                         //For third and fourth
         image = myColorWithCoord.restoreImage();
 
 
-        fileReader.SaveImage(image, PNG, THIRD_SAMPLE + CLUSTERS + ".png");
+        fileReader.SaveImage(image, PNG, THIRD_SAMPLE + CLUSTERS + ".png");*/
     }
 }

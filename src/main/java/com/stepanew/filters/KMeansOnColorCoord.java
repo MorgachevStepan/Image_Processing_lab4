@@ -1,6 +1,7 @@
 package com.stepanew.filters;
 
 import com.stepanew.entities.ColorWithCoord;
+import com.stepanew.utils.ColorGenerator;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -14,9 +15,9 @@ public class KMeansOnColorCoord {
     private final int maxIterations;
     private final int width;
     private final int height;
+    private final ColorGenerator colorGenerator;
 
-
-    public KMeansOnColorCoord(BufferedImage image, int clusters, int maxIterations) {
+    public KMeansOnColorCoord(BufferedImage image, int clusters, int maxIterations, ColorGenerator colorGenerator) {
         this.width = image.getWidth();
         this.height = image.getHeight();
         pixels = new ColorWithCoord[width][height];
@@ -32,6 +33,7 @@ public class KMeansOnColorCoord {
 
         this.clusters = clusters;
         this.maxIterations = maxIterations;
+        this.colorGenerator = colorGenerator;
     }
 
     public void kMeansColorAndCoordSegmentation() {
@@ -62,7 +64,7 @@ public class KMeansOnColorCoord {
     }
 
     private void visualizeClusters(int[][] labels, ColorWithCoord[] centroids) {
-        Color[] results = generateUniqueColors(clusters);
+        Color[] results = colorGenerator.generateUniqueColors(clusters);
         Set<Integer> set = new HashSet<>();
 
         for (int i = 0; i < width; i++) {
@@ -168,21 +170,5 @@ public class KMeansOnColorCoord {
         int deltaY = y1 - y2;
 
         return ((deltaRed * deltaRed + deltaGreen * deltaGreen + deltaBlue * deltaBlue) * 10 + deltaX * deltaX + deltaY * deltaY);
-    }
-
-    private Color[] generateUniqueColors(int arraySize) {
-        Set<Color> colorSet = new HashSet<>();
-        Random random = new Random();
-
-        while (colorSet.size() < arraySize) {
-            int red = random.nextInt(256);
-            int green = random.nextInt(256);
-            int blue = random.nextInt(256);
-
-            Color color = new Color(red, green, blue);
-            colorSet.add(color);
-        }
-
-        return colorSet.toArray(new Color[0]);
     }
 }
