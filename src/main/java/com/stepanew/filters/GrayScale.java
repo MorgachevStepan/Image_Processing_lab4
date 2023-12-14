@@ -4,7 +4,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 
 public class GrayScale {
-    public BufferedImage grayScale(BufferedImage image) {
+    public static BufferedImage grayScale(BufferedImage image) {
         int width = image.getWidth();
         int height = image.getHeight();
 

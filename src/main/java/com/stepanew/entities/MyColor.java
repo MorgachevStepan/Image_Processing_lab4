@@ -1,11 +1,11 @@
 package com.stepanew.entities;
 
-public class Color {
+public class MyColor {
     public int Red;
     public int Green;
     public int Blue;
 
-    public Color(int red, int green, int blue) {
+    public MyColor(int red, int green, int blue) {
         Red = red;
         Green = green;
         Blue = blue;
